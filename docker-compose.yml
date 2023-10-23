@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: server-cli
+    image: wppconnect/server-cli:latest
+    restart: always
+    ports:
+      - '${PORT}:${PORT}'
+    volumes:
+      - ./config.json:/usr/src/server-cli/config.json
+      - ./userDataDir:/usr/src/server-cli/userDataDir
+      - ./tokens:/usr/src/server-cli/tokens
+    command:
+      # https://github.com/wppconnect-team/server-cli/blob/main/src/program.js      
+      wppserver
+      --config /usr/src/server-cli/config.json
+      --host ${HOST}
+      --port ${PORT}
+      --secretKey ${SECRET_KEY}
+      --webhook-url ${WEBHOOK_URL}
+      --startAllSession
+      --no-webhook-autoDownload
+      --no-webhook-readMessage
+      --no-webhook-listenAcks
+      --no-webhook-onPresenceChanged
+      --no-webhook-onParticipantsChanged
+      --no-archive-enable
+
